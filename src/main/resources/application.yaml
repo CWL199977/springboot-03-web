@@ -1,0 +1,5 @@
+spring:
+  # 国际化：省略 _en_US、_zh_CN
+  messages:
+    basename: i18n.login
+
