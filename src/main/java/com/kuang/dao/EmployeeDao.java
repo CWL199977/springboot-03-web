@@ -12,43 +12,63 @@ import java.util.Map;
 //员工dao
 @Repository
 public class EmployeeDao {
- //模拟数据库中的数据
+    //模拟数据库数据
+
     private static Map<Integer, Employee> employees = null;
-    //员工有所属的部门
+    /**
+     * 员工所属部门
+     */
     @Autowired
     private DepartmentDao departmentDao;
-    static {
-        //创建一个部门表
-        employees = new HashMap<Integer,Employee>();
-        //添加部门表中的数据
-        employees.put(1001,new Employee(1001,"AA", "A2249598469@qq.com", 0, new Department(101, "教学部")));
-        employees.put(1002,new Employee(1002,"BB", "B2249598469@qq.com", 1, new Department(102,  "市场部")));
-        employees.put(1003,new Employee(1003,"CC", "C2249598469@qq.com", 0, new Department(103, "财务部")));
-        employees.put(1004,new Employee(1004,"DD", "D2249598469@qq.com", 1, new Department(104, "行政部")));
-        employees.put(1005,new Employee(1005,"EE", "E2249598469@qq.com", 0, new Department(105, "开发部")));
 
+    static {
+        //创建一个员工表
+        employees = new HashMap<Integer, Employee>();
+
+        employees.put(1001,new Employee(1001,"AA","A123456@qq.com",1,new Department(101,"教学部")));
+        employees.put(1002,new Employee(1002,"BB","B123456@qq.com",0,new Department(102,"市场部")));
+        employees.put(1003,new Employee(1003,"CC","C123456@qq.com",1,new Department(103,"教研部")));
+        employees.put(1004,new Employee(1004,"DD","D123456@qq.com",0,new Department(104,"运营部")));
+        employees.put(1005,new Employee(1005,"EE","E123456@qq.com",1,new Department(105,"后勤部")));
     }
-    //主键自增长
-    private static Integer initId = 1006;
-    //增加一个员工
+
+    //主键自增
+    private static Integer ininId = 1006;
+
+    /**
+     * 增加一个员工
+     */
     public void save(Employee employee) {
         if (employee.getId() == null) {
-            employee.setId(initId++);
+            employee.setId(ininId++);
         }
-        employee.setDepartment(departmentDao.getDepartment(employee.getDepartment().getId()));
-        employees.put(employee.getId(), employee);
+        employee.setDepartment(departmentDao.getDepartmentById(employee.getDepartment().getId()));
+
+        employees.put(employee.getId(),employee);
     }
-    //查询所有员工信息
+
+    /**
+     * 查询全部员工信息
+     * @return
+     */
     public Collection<Employee> getAll() {
         return employees.values();
     }
-    //根据id查询员工信息
-    public Employee get(Integer id) {
+
+    /**
+     * 通过id查询员工
+     * @param id
+     * @return
+     */
+    public Employee getEmployeeById(Integer id) {
         return employees.get(id);
     }
-    //根据id删除员工信息
+
+    /**
+     * 删除员工通过id
+     * @param id
+     */
     public void delete(Integer id) {
         employees.remove(id);
     }
-
 }
